@@ -1,5 +1,10 @@
 from funcoes.user import deletar_user
 
+def interface_base():
+    try:
+        print("a")
+    finally:
+        print("b")
 
 def opcoes_usuario():
     try:
