@@ -6,11 +6,13 @@ def cadastrar(email: str, senha: str):
         con = conexao()
         cursor = con.cursor()
 
-        sql = "insert into alunos (email, senha) values (%s, %s)"
+        sql = "insert into alunos (email, senha) values (%s, %s)RETURNING id_aluno"
         cursor.execute(sql, (email, senha))
-        con.commit()
-        print("usuario cadastrado")
         
+        print("usuario cadastrado")
+        id_novo_aluno = cursor.fetchone()[0]
+        con.commit()
+        return id_novo_aluno
 
     except Exception as e:
         print(f"erro {e}")
@@ -18,7 +20,7 @@ def cadastrar(email: str, senha: str):
     finally:
         cursor.close()
         con.close()
-        delay(10)
+        delay(5)
 
 
 def login(email: str, senha: str):
@@ -43,13 +45,13 @@ def login(email: str, senha: str):
     return user
 
 
-def cadastrar_secundario(nome: str, idade: int):
+def cadastrar_secundario(id_aluno: str, nome: str, idade: int):
     try:
         con = conexao()
         cursor = con.cursor()
 
-        sql = "incert into alunos (nome, idade) values (%s, %s)"
-        cursor.execute(sql, (nome, idade))
+        sql = "UPDATE alunos SET nome = %s, idade = %s WHERE id_aluno = %s"
+        cursor.execute(sql, (nome, idade, id_aluno))
         con.commit()
         print("dados do usuario completos")
 
@@ -62,3 +64,16 @@ def cadastrar_secundario(nome: str, idade: int):
         delay(5)
 
 
+def deletar_user(id_aluno):
+    try:
+        con = conexao()
+        cursor = con.cursor()
+
+        sql = "UPDATE Alunos SET deletado = TRUE WHERE id_aluno = %s"
+        cursor.execute(sql, (id_aluno))
+        con.commit
+        print("usuario deletado com sucesso!")
+    finally:
+        cursor.close()
+        con.close()
+        delay(5)

@@ -1,6 +1,7 @@
 from funcoes.utilitarios import limpar, delay
 from funcoes.user import cadastrar, login, cadastrar_secundario
-
+from sistema_interno.interno import opcoes_usuario
+from pwinput import pwinput
 
 while True:
     limpar()
@@ -14,15 +15,16 @@ while True:
             #opçoes de entrada\saida do sistema
             case 1:
                 email = input("\ndigite o seu email: ")
-                senha =  input("digite a sua senha: ")
-                cadastrar(email, senha)
+                senha =  pwinput("digite a sua senha: ")
+                id_aluno = cadastrar(email, senha)
                 
-                limpar()
-                print("mais alguns dados para finalizar o cadastro\n")
+                if id_aluno:
+                    limpar()
+                    print("mais alguns dados para finalizar o cadastro\n")
 
-                nome = input("digire o seu nome: ")
-                idade = int(input("digite a sua idade: "))
-                cadastrar_secundario(nome, idade)
+                    nome = input("digire o seu nome: ")
+                    idade = int(input("digite a sua idade: "))
+                    cadastrar_secundario(id_aluno, nome, idade)
 
             case 2:
                 email = input("\ndigite o seu email: ")
@@ -31,8 +33,8 @@ while True:
                 logado = login(email, senha)
 
                 if logado:
-                    print("a")
-                    delay(5)   
+                    opcoes_usuario()
+
             case 3:
                 break
 
