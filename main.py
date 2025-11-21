@@ -1,6 +1,6 @@
 from funcoes.utilitarios import limpar, delay
 from funcoes.user import cadastrar, login, cadastrar_secundario
-from sistema_interno.interno import opcoes_usuario
+from sistema_interno.interno import opcoes_usuario, interface_base
 from pwinput import pwinput
 
 while True:
@@ -28,12 +28,13 @@ while True:
 
             case 2:
                 email = input("\ndigite o seu email: ")
-                senha = input("digite a sua senha: ")
+                senha = pwinput("digite a sua senha: ")
                 
                 logado = login(email, senha)
 
                 if logado:
-                    opcoes_usuario()
+                    delay(5)
+                    interface_base(logado)
 
             case 3:
                 break
